@@ -11,6 +11,59 @@ function nivel () {
     let nivelactual = 0
     return nivelactual != nivelcontador
 }
+function enemigos () {
+    for (let index = 0; index < 200; index++) {
+        for (let value of tiles.getTilesByType(assets.tile`tren`)) {
+            tren = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . f f f f f f . . . . . 
+                . . f f f f f f f f f f f f . . 
+                . . f 2 2 2 2 2 2 2 2 2 2 f . . 
+                . . f 6 6 2 6 6 2 6 6 2 6 f f . 
+                . f f 6 6 2 6 6 2 6 6 2 6 f f . 
+                . f 2 2 2 2 2 2 2 2 2 2 2 f f . 
+                f f 2 2 2 2 2 2 2 2 2 2 2 f f f 
+                b f f 2 2 2 2 2 2 2 2 2 2 f . b 
+                . . f f f f f f f f f f f f f . 
+                . . f b b e f e b b f b e e f . 
+                . . . f f f . f f f . f f f . . 
+                `, SpriteKind.Enemy)
+            tiles.placeOnTile(tren, value)
+            tiles.setTileAt(value, assets.tile`tren`)
+            tren.setScale(1, ScaleAnchor.Middle)
+            tren.setVelocity(-50, 50)
+        }
+        for (let value2 of tiles.getTilesByType(assets.tile`myTile0`)) {
+            helic = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . f f . . . f f . . . 
+                . . . . . . . f f . f f . . . . 
+                . . . . . . . . . f . . . . . f 
+                . . . . . . . f f f f f f . . f 
+                . . . . f f f f 1 1 1 1 1 f f f 
+                . . f f f 6 6 1 1 1 1 1 1 f f . 
+                . f 1 1 6 6 6 1 1 1 1 1 1 f . . 
+                . f 1 1 1 1 1 1 1 1 1 1 1 f f . 
+                . f 1 1 1 1 1 1 1 1 1 1 1 f f f 
+                . . f f f f f f f f f f f . . f 
+                . . . . . . . f . . . . . . . f 
+                . . . . f f f f f f f . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, SpriteKind.Enemy)
+            tiles.placeOnTile(helic, value2)
+            tiles.setTileAt(value2, assets.tile`myTile0`)
+            helic.setScale(1, ScaleAnchor.Middle)
+            helic.setVelocity(-50, 50)
+        }
+        pause(5000)
+    }
+}
 function mapasniveles (nivel2: number) {
     if (nivel2 == 0) {
         tiles.setCurrentTilemap(tilemap`level2`)
@@ -20,6 +73,8 @@ function mapasniveles (nivel2: number) {
         tiles.setCurrentTilemap(tilemap`level2`)
     }
 }
+let helic: Sprite = null
+let tren: Sprite = null
 let nivel2 = 0
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -144,7 +199,6 @@ scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     `)
 tiles.setCurrentTilemap(tilemap`level2`)
-effects.clouds.startScreenEffect()
 let player2 = sprites.create(img`
     . . . . . . . . . . . . . 
     . . . f f f f f f . . . . 
@@ -168,6 +222,4 @@ scene.cameraFollowSprite(player2)
 info.setLife(3)
 info.setScore(0)
 controller.moveSprite(player2, 100, 100)
-game.onUpdateInterval(500, function () {
-	
-})
+enemigos()
