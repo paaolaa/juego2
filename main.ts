@@ -15,7 +15,7 @@ function mapasniveles (nivel2: number) {
     if (nivel2 == 0) {
         tiles.setCurrentTilemap(tilemap`level2`)
     } else if (nivel2 == 1) {
-        tiles.setCurrentTilemap(tilemap`level2`)
+        tiles.setCurrentTilemap(tilemap`level1`)
     } else if (nivel2 == 2) {
         tiles.setCurrentTilemap(tilemap`level2`)
     }
@@ -143,7 +143,8 @@ scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     `)
-tiles.setCurrentTilemap(tilemap`level1`)
+tiles.setCurrentTilemap(tilemap`level2`)
+effects.clouds.startScreenEffect()
 let player2 = sprites.create(img`
     . . . . . . . . . . . . . 
     . . . f f f f f f . . . . 
@@ -162,5 +163,11 @@ let player2 = sprites.create(img`
     . f f f f f f f f f f . . 
     . . f f . . . f f f . . . 
     `, SpriteKind.Player)
+tiles.placeOnTile(player2, tiles.getTileLocation(0, 6))
+scene.cameraFollowSprite(player2)
 info.setLife(3)
 info.setScore(0)
+controller.moveSprite(player2, 100, 100)
+game.onUpdateInterval(500, function () {
+	
+})
