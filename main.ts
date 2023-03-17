@@ -1,16 +1,18 @@
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
     nivel2 += 1
-    if (nivel()) {
-        game.splash("NIVEL SUPRADO")
-    } else {
-    	
-    }
+    game.splash("NIVEL SUPRADO")
+    sprites.destroy(helic)
+    sprites.destroy(tren)
+    mapasniveles(nivel2)
 })
 function nivel () {
     let nivelcontador = 0
-    let nivelactual = 0
     return nivelactual != nivelcontador
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    info.setLife(info.score() + 1)
+})
 function enemigos () {
     for (let index = 0; index < 200; index++) {
         for (let value of tiles.getTilesByType(assets.tile`tren`)) {
@@ -35,7 +37,7 @@ function enemigos () {
             tiles.placeOnTile(tren, value)
             tiles.setTileAt(value, assets.tile`tren`)
             tren.setScale(1, ScaleAnchor.Middle)
-            tren.setVelocity(-50, 50)
+            tren.setVelocity(-55, 55)
         }
         for (let value2 of tiles.getTilesByType(assets.tile`myTile0`)) {
             helic = sprites.create(img`
@@ -68,14 +70,22 @@ function mapasniveles (nivel2: number) {
     if (nivel2 == 0) {
         tiles.setCurrentTilemap(tilemap`level2`)
     } else if (nivel2 == 1) {
+        tiles.placeOnTile(player2, tiles.getTileLocation(0, 6))
         tiles.setCurrentTilemap(tilemap`level1`)
     } else if (nivel2 == 2) {
+        tiles.placeOnTile(player2, tiles.getTileLocation(0, 6))
         tiles.setCurrentTilemap(tilemap`level2`)
     }
 }
-let helic: Sprite = null
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    info.setLife(info.life() - 1)
+})
 let tren: Sprite = null
+let helic: Sprite = null
 let nivel2 = 0
+let nivelactual = 0
+let player2: Sprite = null
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -199,7 +209,7 @@ scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     `)
 tiles.setCurrentTilemap(tilemap`level2`)
-let player2 = sprites.create(img`
+player2 = sprites.create(img`
     . . . . . . . . . . . . . 
     . . . f f f f f f . . . . 
     . f f f f f f f f f . . . 
@@ -217,9 +227,29 @@ let player2 = sprites.create(img`
     . f f f f f f f f f f . . 
     . . f f . . . f f f . . . 
     `, SpriteKind.Player)
+let mySprite = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . 5 5 5 5 5 5 5 . . . . 
+    . . . . 5 5 5 5 5 5 5 5 5 . . . 
+    . . . 5 5 4 5 5 5 5 5 4 5 5 . . 
+    . . . 5 5 5 4 4 1 4 1 5 5 5 . . 
+    . . . 5 5 5 4 4 4 1 4 5 5 5 . . 
+    . . . 5 5 5 4 4 4 4 4 5 5 5 . . 
+    . . . 5 5 5 4 4 4 4 1 5 5 5 . . 
+    . . . 5 5 5 4 4 4 4 4 5 5 5 . . 
+    . . . 5 5 4 5 5 5 5 5 4 5 5 . . 
+    . . . . 5 5 5 5 5 5 5 5 5 . . . 
+    . . . . . 5 5 5 5 5 5 5 . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Food)
 tiles.placeOnTile(player2, tiles.getTileLocation(0, 6))
 scene.cameraFollowSprite(player2)
+let gravedad = 9.8 * 0
 info.setLife(3)
 info.setScore(0)
 controller.moveSprite(player2, 100, 100)
+nivelactual = 0
 enemigos()
