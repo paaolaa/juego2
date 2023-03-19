@@ -10,9 +10,9 @@ function nivel () {
     let nivelcontador = 0
     return nivelactual != nivelcontador
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    sprites.destroy(otherSprite)
-    info.setLife(info.score() + 1)
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
+    game.setGameOverMessage(false, "GAME OVER!")
+    game.gameOver(false)
 })
 function enemigos () {
     for (let index = 0; index < 200; index++) {
@@ -75,7 +75,7 @@ function mapasniveles (nivel2: number) {
         tiles.setCurrentTilemap(tilemap`level1`)
     } else if (nivel2 == 2) {
         tiles.placeOnTile(player2, tiles.getTileLocation(0, 6))
-        tiles.setCurrentTilemap(tilemap`level2`)
+        tiles.setCurrentTilemap(tilemap`level`)
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
