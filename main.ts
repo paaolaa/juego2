@@ -3,6 +3,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, lo
     game.splash("NIVEL SUPRADO")
     sprites.destroy(helic)
     sprites.destroy(tren)
+    info.setScore(info.score() + 1)
     mapasniveles(nivel2)
 })
 function nivel () {
@@ -227,27 +228,8 @@ player2 = sprites.create(img`
     . f f f f f f f f f f . . 
     . . f f . . . f f f . . . 
     `, SpriteKind.Player)
-let mySprite = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . 5 5 5 5 5 5 5 . . . . 
-    . . . . 5 5 5 5 5 5 5 5 5 . . . 
-    . . . 5 5 4 5 5 5 5 5 4 5 5 . . 
-    . . . 5 5 5 4 4 1 4 1 5 5 5 . . 
-    . . . 5 5 5 4 4 4 1 4 5 5 5 . . 
-    . . . 5 5 5 4 4 4 4 4 5 5 5 . . 
-    . . . 5 5 5 4 4 4 4 1 5 5 5 . . 
-    . . . 5 5 5 4 4 4 4 4 5 5 5 . . 
-    . . . 5 5 4 5 5 5 5 5 4 5 5 . . 
-    . . . . 5 5 5 5 5 5 5 5 5 . . . 
-    . . . . . 5 5 5 5 5 5 5 . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Food)
 tiles.placeOnTile(player2, tiles.getTileLocation(0, 6))
 scene.cameraFollowSprite(player2)
-let gravedad = 9.8 * 0
 info.setLife(3)
 info.setScore(0)
 controller.moveSprite(player2, 100, 100)
