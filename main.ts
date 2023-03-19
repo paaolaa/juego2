@@ -10,6 +10,13 @@ function nivel () {
     let nivelcontador = 0
     return nivelactual != nivelcontador
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (player2.isHittingTile(CollisionDirection.Bottom)) {
+        player2.vy = -160
+    } else {
+        player2.vy = 0
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
     game.setGameOverMessage(false, "GAME OVER!")
     game.gameOver(false)
@@ -232,6 +239,8 @@ tiles.placeOnTile(player2, tiles.getTileLocation(0, 6))
 scene.cameraFollowSprite(player2)
 info.setLife(3)
 info.setScore(0)
-controller.moveSprite(player2, 100, 100)
+controller.moveSprite(player2, 100, 0)
+player2.ay = 350
+player2.ax = 0
 nivelactual = 0
 enemigos()
