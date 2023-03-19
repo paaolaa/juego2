@@ -4,6 +4,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, lo
     sprites.destroy(helic)
     sprites.destroy(tren)
     info.setScore(info.score() + 1)
+    info.setLife(info.life() + 3)
     mapasniveles(nivel2)
 })
 function nivel () {
